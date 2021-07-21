@@ -1,4 +1,4 @@
-import os, pickle, string
+import os, string
 import pandas as pd
 import numpy as np
 import rampwf as rw
@@ -47,14 +47,21 @@ score_types = [
     MAPE(name="MAPE"),
 ]
 
+path = "."
+def get_file_list_from_dir(datadir):
+    all_files = os.listdir(os.path.join(path, "data", datadir))
+    data_files = list(filter(lambda file: file.endswith('.csv.gz'), all_files))
+    return data_files
+
 
 def _get_data(path=".", split="train"):
-    # load pre-prepared dataset aggregating all of the different input data
-    # ( for the training dataset, these are composed of 920 different
-    # simulations of an operating reactor )
-    dataset = pickle.load(
-        open(os.path.join(path, "data", f"{split}_data_python3.pickle"), "rb")
-    )
+    # load and concatenate data in one dataset
+    # ( train data are composed of 690 different
+    # simulations of an operating reactor
+    # and test data of 230 simulations)
+    # returns X (input) and Y (output) arrays
+    data_files = get_file_list_from_dir(split)
+    dataset = pd.concat((pd.read_csv(f'./data/{split}/'+f) for f in data_files))
 
     # Isotopes are named from A to Z
     alphabet = list(string.ascii_uppercase)
