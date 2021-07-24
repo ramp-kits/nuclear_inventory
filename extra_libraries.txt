@@ -1,0 +1,7 @@
+scipy
+tensorflow-gpu
+torch  # pytorch
+keras
+lightgbm
+xgboost
+catboost
