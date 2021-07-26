@@ -26,6 +26,7 @@ jobs:
           conda activate ramp-meg
           python download_data.py
           ramp-test --quick-test
+
   build_pip:
     name: Linux pip
     runs-on: ubuntu-latest
@@ -43,8 +44,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test
       run: |
-        flake8 *.py submissions/*/*.py --exclude plot_topomap.py
+        flake8 *.py submissions/*/*.py
         python download_data.py
         ramp-test --quick-test
-        ramp-test --submission lasso_lars --quick-test
-        jupyter nbconvert --execute meg_starting_kit.ipynb --to html --ExecutePreprocessor.kernel_name=python3
+        jupyter nbconvert --execute starting_kit.ipynb --to html --ExecutePreprocessor.kernel_name=python3

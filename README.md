@@ -1,7 +1,7 @@
 # Prediction of a reactor's isotopic inventory
----
 
 Authors : Benjamin Dechenaux, Jean-Baptiste Clavel, Cécilia Damon
+with the help of François Caud and Alexandre Gramfort (Université Paris-Saclay)
 
 Institut de Radioprotection et de Sûreté Nucléaire (IRSN)
 
@@ -26,7 +26,7 @@ usage.
 
 ### Challenge description
 
-Get started with the [dedicated notebook]
+Get started with the [dedicated notebook](starting_kit.ipynb)
 
 
 ### Test a submission
