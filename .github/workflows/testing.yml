@@ -10,7 +10,7 @@ on:
 jobs:
   build_conda:
     name: Linux Conda
-    runs-on: "ubuntu-latest"
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash -l {0}
