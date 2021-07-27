@@ -1,4 +1,5 @@
-import os, string
+import os
+import string
 import pandas as pd
 import numpy as np
 import rampwf as rw
