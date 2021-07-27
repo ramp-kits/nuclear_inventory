@@ -65,7 +65,7 @@ def _get_data(path=".", split="train"):
     # and test data of 230 simulations)
     # returns X (input) and Y (output) arrays
     data_files = get_file_list_from_dir(split)
-    dataset = pd.concat((pd.read_csv(f'./data/{split}/'+f) 
+    dataset = pd.concat((pd.read_csv(f'./data/{split}/'+f)
                          for f in data_files))
 
     # Isotopes are named from A to Z
@@ -73,7 +73,7 @@ def _get_data(path=".", split="train"):
 
     # At T=0 only isotopes from A to H are != 0.
     # Those are the input composition
-    # The input parameter space is composed of those initial 
+    # The input parameter space is composed of those initial
     # compositions + operating parameters p1 to p5
     input_params = alphabet[:8] + ["p1", "p2", "p3", "p4", "p5"]
 
