@@ -9,6 +9,9 @@ dependencies:
   - click
   - pandas
   - matplotlib
+  - seaborn
+  - os
+  - string
 
   # Extra requirements
   - tensorflow-gpu
