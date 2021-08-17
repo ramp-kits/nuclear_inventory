@@ -9,7 +9,7 @@ from sklearn.model_selection import ShuffleSplit
 
 problem_title = "Isotopic inventory of a nuclear reactor core in operation"
 
-_target_names = ["Y_" + j for j in list(string.ascii_uppercase)]
+_target_names = [j+str(i+1) for j in list(string.ascii_uppercase) for i in range(80)]
 
 Predictions = rw.prediction_types.make_regression(label_names=_target_names)
 workflow = rw.workflows.Regressor()
@@ -20,7 +20,7 @@ class MSE(BaseScoreType):
     minimum = 0.0
     maximum = float("inf")
 
-    def __init__(self, name="MSE", precision=3):
+    def __init__(self, name="MSE", precision=4):
         self.name = name
         self.precision = precision
 
@@ -28,13 +28,27 @@ class MSE(BaseScoreType):
         mse = (np.square(y_true - y_pred)).mean()
         return mse
 
+    
+class MAE(BaseScoreType):
+    is_lower_the_better = True
+    minimum = 0.0
+    maximum = float("inf")
+    
+    def __init__(self, name="MAE", precision=4):
+        self.name = name
+        self.precision = precision
 
+    def __call__(self, y_true, y_pred):
+        mae = (np.abs(y_true - y_pred)).mean()
+        return mae
+    
+    
 class MAPE(BaseScoreType):
     is_lower_the_better = True
     minimum = 0.0
     maximum = float("inf")
 
-    def __init__(self, name="MAPE", precision=3):
+    def __init__(self, name="MAPE", precision=4):
         self.name = name
         self.precision = precision
 
@@ -45,6 +59,7 @@ class MAPE(BaseScoreType):
 
 score_types = [
     MSE(name="MSE"),
+    MAE(name="MAE"),
     MAPE(name="MAPE"),
 ]
 
@@ -67,6 +82,9 @@ def _get_data(path=".", split="train"):
     data_files = get_file_list_from_dir(split)
     dataset = pd.concat((pd.read_csv(f'./data/{split}/'+f)
                          for f in data_files))
+    # Normalization
+    max_data = dataset.max()
+    dataset = dataset/max_data
 
     # Isotopes are named from A to Z
     alphabet = list(string.ascii_uppercase)
@@ -87,10 +105,16 @@ def _get_data(path=".", split="train"):
     ).reset_index(drop=True)
     data = pd.concat([temp, data.reset_index(drop=True)], axis=1)
 
-    data = shuffle(data, random_state=57)
+    #data = shuffle(data, random_state=57)
+    
+    X_df = data.groupby(input_params)['A'].apply(list).apply(pd.Series).rename(columns=lambda x: 'A' + str(x + 1)).reset_index()[input_params]
+    Y_df = pd.DataFrame()
+    for i in alphabet:
+        temp = data.groupby(input_params)['Y_'+i].apply(list).apply(pd.Series).rename(columns=lambda x: i + str(x + 1)).reset_index().iloc[:, 13:]
+        Y_df = pd.concat([Y_df, temp], axis=1)
 
-    X = data[input_params + ["times"]].to_numpy()
-    Y = data[["Y_" + j for j in alphabet]].to_numpy()
+    X = X_df.to_numpy()
+    Y = Y_df.to_numpy()
     return X, Y
 
 
