@@ -3,7 +3,7 @@ import string
 import pandas as pd
 import numpy as np
 import rampwf as rw
-from sklearn.utils import shuffle
+# from sklearn.utils import shuffle
 from rampwf.score_types.base import BaseScoreType
 from sklearn.model_selection import ShuffleSplit
 
@@ -112,8 +112,9 @@ def _get_data(path=".", split="train"):
         columns=lambda x: 'A' + str(x + 1)).reset_index()[input_params]
     Y_df = pd.DataFrame()
     for i in alphabet:
-        temp = data.groupby(input_params)['Y_'+i].apply(list).apply(pd.Series)\
-        .rename(columns=lambda x: i + str(x + 1)).reset_index().iloc[:, 13:]
+        temp = data.groupby(
+            input_params)['Y_'+i].apply(list).apply(pd.Series).rename(
+            columns=lambda x: i + str(x + 1)).reset_index().iloc[:, 13:]
         Y_df = pd.concat([Y_df, temp], axis=1)
 
     X = X_df.to_numpy()
