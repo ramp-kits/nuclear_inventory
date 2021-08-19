@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/ramp-kits/nuclear_inventory_prediction/workflows/build/badge.svg?branch=main&event=push)](https://github.com/ramp-kits/nuclear_inventory_prediction/actions)
 
-Authors : Benjamin Dechenaux, Jean-Baptiste Clavel, Cécilia Damon
+Authors : Benjamin Dechenaux, Jean-Baptiste Clavel, Cécilia Damon (IRSN)
 with the help of François Caud and Alexandre Gramfort (Université Paris-Saclay)
 
 Institut de Radioprotection et de Sûreté Nucléaire (IRSN)
