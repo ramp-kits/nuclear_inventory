@@ -17,20 +17,6 @@ Predictions = rw.prediction_types.make_regression(label_names=_target_names)
 workflow = rw.workflows.Regressor()
 
 
-class MAE(BaseScoreType):
-    is_lower_the_better = True
-    minimum = 0.0
-    maximum = float("inf")
-
-    def __init__(self, name="MAE", precision=4):
-        self.name = name
-        self.precision = precision
-
-    def __call__(self, y_true, y_pred):
-        mae = (np.abs(y_true - y_pred)).mean()
-        return mae
-
-
 class MAPE(BaseScoreType):
     is_lower_the_better = True
     minimum = 0.0
@@ -46,7 +32,6 @@ class MAPE(BaseScoreType):
 
 
 score_types = [
-    MAE(name="MAE"),
     MAPE(name="MAPE"),
 ]
 
