@@ -1,11 +1,12 @@
 import os
 import string
+
 import pandas as pd
 import numpy as np
-import rampwf as rw
-# from sklearn.utils import shuffle
-from rampwf.score_types.base import BaseScoreType
 from sklearn.model_selection import ShuffleSplit
+
+import rampwf as rw
+from rampwf.score_types.base import BaseScoreType
 
 problem_title = "Isotopic inventory of a nuclear reactor core in operation"
 
@@ -14,20 +15,6 @@ _target_names = [j+str(i+1) for j in list(string.ascii_uppercase)
 
 Predictions = rw.prediction_types.make_regression(label_names=_target_names)
 workflow = rw.workflows.Regressor()
-
-
-class MSE(BaseScoreType):
-    is_lower_the_better = True
-    minimum = 0.0
-    maximum = float("inf")
-
-    def __init__(self, name="MSE", precision=4):
-        self.name = name
-        self.precision = precision
-
-    def __call__(self, y_true, y_pred):
-        mse = (np.square(y_true - y_pred)).mean()
-        return mse
 
 
 class MAE(BaseScoreType):
@@ -59,11 +46,9 @@ class MAPE(BaseScoreType):
 
 
 score_types = [
-    MSE(name="MSE"),
     MAE(name="MAE"),
     MAPE(name="MAPE"),
 ]
-
 
 path = "."
 
@@ -110,12 +95,15 @@ def _get_data(path=".", split="train"):
 
     X_df = data.groupby(input_params)['A'].apply(list).apply(pd.Series).rename(
         columns=lambda x: 'A' + str(x + 1)).reset_index()[input_params]
-    Y_df = pd.DataFrame()
+    Y_df = []
     for i in alphabet:
-        temp = data.groupby(
-            input_params)['Y_'+i].apply(list).apply(pd.Series).rename(
-            columns=lambda x: i + str(x + 1)).reset_index().iloc[:, 13:]
-        Y_df = pd.concat([Y_df, temp], axis=1)
+        Y_df.append(
+            data.groupby(
+                input_params)['Y_'+i].apply(list).apply(pd.Series).rename(
+                columns=lambda x: i + str(x + 1)
+                ).reset_index().iloc[:, len(input_params):]
+        )
+    Y_df = pd.concat(Y_df, axis=1)
 
     X = X_df.to_numpy()
     Y = Y_df.to_numpy()
