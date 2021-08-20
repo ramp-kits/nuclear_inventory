@@ -1,5 +1,6 @@
 import os
 import string
+from glob import glob
 
 import pandas as pd
 import numpy as np
@@ -35,12 +36,9 @@ score_types = [
     MAPE(name="MAPE"),
 ]
 
-path = "."
 
-
-def get_file_list_from_dir(datadir):
-    all_files = os.listdir(os.path.join(path, "data", datadir))
-    data_files = list(filter(lambda file: file.endswith('.csv.gz'), all_files))
+def get_file_list_from_dir(*, path, datadir):
+    data_files = sorted(glob(os.path.join(path, "data", datadir, "*.csv.gz")))
     return data_files
 
 
@@ -50,9 +48,8 @@ def _get_data(path=".", split="train"):
     # simulations of an operating reactor
     # and test data of 230 simulations)
     # returns X (input) and Y (output) arrays
-    data_files = get_file_list_from_dir(split)
-    dataset = pd.concat((pd.read_csv(f'./data/{split}/'+f)
-                         for f in data_files))
+    data_files = get_file_list_from_dir(path=path, datadir=split)
+    dataset = pd.concat([pd.read_csv(f) for f in data_files])
     # Normalization
     max_data = dataset.max()
     dataset = dataset/max_data
