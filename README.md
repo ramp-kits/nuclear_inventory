@@ -1,6 +1,6 @@
 # Prediction of a reactor's isotopic inventory
 
-[![Build Status](https://github.com/ramp-kits/nuclear_inventory_prediction/workflows/build/badge.svg?branch=main&event=push)](https://github.com/ramp-kits/nuclear_inventory_prediction/actions)
+[![Build Status](https://github.com/ramp-kits/nuclear_inventory/workflows/build/badge.svg?branch=main&event=push)](https://github.com/ramp-kits/nuclear_inventory/actions)
 
 Authors : Benjamin Dechenaux, Jean-Baptiste Clavel, Cécilia Damon (IRSN)
 with the help of François Caud and Alexandre Gramfort (Université Paris-Saclay)
@@ -28,7 +28,7 @@ usage.
 
 ### Challenge description
 
-Get started with the [dedicated notebook](starting_kit.ipynb)
+Get started with the [dedicated notebook](nuclear_inventory_starting_kit.ipynb)
 
 
 ### Test a submission

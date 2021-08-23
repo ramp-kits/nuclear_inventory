@@ -1,4 +1,4 @@
-name: ramp-nuclear
+name: ramp-nuclear-inventory
 channels:
   - conda-forge
   - defaults
