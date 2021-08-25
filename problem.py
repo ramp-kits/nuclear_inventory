@@ -98,5 +98,5 @@ def get_test_data(path="."):
 
 
 def get_cv(X, y):
-    cv = ShuffleSplit(n_splits=10, test_size=0.3, random_state=57)
+    cv = ShuffleSplit(n_splits=10, test_size=0.25, random_state=57)
     return cv.split(X, y)
