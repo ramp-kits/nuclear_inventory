@@ -11,8 +11,9 @@ from rampwf.score_types.base import BaseScoreType
 
 problem_title = "Isotopic inventory of a nuclear reactor core in operation"
 
-_target_names = [j+str(i+1) for j in list(string.ascii_uppercase)
-                 for i in range(80)]
+_target_names = [
+    j + str(i + 1) for j in list(string.ascii_uppercase) for i in range(80)
+]
 
 Predictions = rw.prediction_types.make_regression(label_names=_target_names)
 workflow = rw.workflows.Regressor()
@@ -50,7 +51,7 @@ def _get_data(path=".", split="train"):
     # returns X (input) and Y (output) arrays
     data_files = get_file_list_from_dir(path=path, datadir=split)
     dataset = pd.concat([pd.read_csv(f) for f in data_files])
-    
+
     # Isotopes are named from A to Z
     alphabet = list(string.ascii_uppercase)
 
@@ -72,15 +73,22 @@ def _get_data(path=".", split="train"):
 
     # data = shuffle(data, random_state=57)
 
-    X_df = data.groupby(input_params)['A'].apply(list).apply(pd.Series).rename(
-        columns=lambda x: 'A' + str(x + 1)).reset_index()[input_params]
+    X_df = (
+        data.groupby(input_params)["A"]
+        .apply(list)
+        .apply(pd.Series)
+        .rename(columns=lambda x: "A" + str(x + 1))
+        .reset_index()[input_params]
+    )
     Y_df = []
     for i in alphabet:
         Y_df.append(
-            data.groupby(
-                input_params)['Y_'+i].apply(list).apply(pd.Series).rename(
-                columns=lambda x: i + str(x + 1)
-                ).reset_index().iloc[:, len(input_params):]
+            data.groupby(input_params)["Y_" + i]
+            .apply(list)
+            .apply(pd.Series)
+            .rename(columns=lambda x: i + str(x + 1))
+            .reset_index()
+            .iloc[:, len(input_params):]
         )
     Y_df = pd.concat(Y_df, axis=1)
 
