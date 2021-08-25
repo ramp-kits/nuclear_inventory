@@ -51,7 +51,9 @@ def _get_data(path=".", split="train"):
     data_files = get_file_list_from_dir(path=path, datadir=split)
     dataset = pd.concat([pd.read_csv(f) for f in data_files])
     # Normalization
-    max_data = dataset.max()
+    data_files_train = get_file_list_from_dir(path=path, datadir="train")
+    dtrain = pd.concat([pd.read_csv(f) for f in data_files_train])
+    max_data = dtrain.max()
     dataset = dataset/max_data
 
     # Isotopes are named from A to Z
