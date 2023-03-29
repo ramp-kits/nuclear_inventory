@@ -30,9 +30,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: s-weigand/setup-conda@v1
-    - name: Conda install environment.yml
-      run: conda env create -f environment.yml -n test_env
+    - name: Set up Conda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        channels: conda-forge
+        mamba-version: "*"
+    - name: Mamba create environment.yml
+      run: mamba env create -f environment.yml -n test_env
 
   check_same_deps:
     name: Check pip and conda install same env

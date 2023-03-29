@@ -1,5 +1,6 @@
 name: ramp-nuclear-inventory
 channels:
+  - pytorch
   - conda-forge
   - defaults
 dependencies:
@@ -12,7 +13,7 @@ dependencies:
   - seaborn
 
   # Extra requirements
-  - tensorflow-gpu
+  - tensorflow
   - pytorch
   - keras
   - lightgbm
