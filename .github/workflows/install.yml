@@ -31,9 +31,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Conda
-      uses: conda-incubator/setup-mamba@v2
+      uses: conda-incubator/setup-miniconda@v2
       with:
         channels: conda-forge
+        mamba-version: "*"
     - name: Mamba create environment.yml
       run: mamba env create -f environment.yml -n test_env
 
