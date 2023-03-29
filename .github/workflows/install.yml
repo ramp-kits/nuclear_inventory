@@ -30,7 +30,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: s-weigand/setup-conda@v1
+    - uses: conda-incubator/setup-miniconda@v2
     - name: Conda install environment.yml
       run: conda env create -f environment.yml -n test_env
 
